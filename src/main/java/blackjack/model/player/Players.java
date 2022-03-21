@@ -3,7 +3,6 @@ package blackjack.model.player;
 import blackjack.model.bet.Bet;
 import blackjack.model.bet.Profits;
 import blackjack.model.trumpcard.TrumpCard;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -57,10 +56,6 @@ public final class Players {
         return this.dealer.canHit();
     }
 
-    public int countCardsAddedToDealer() {
-        return this.dealer.countAddedCards();
-    }
-
     public Profits calculateProfits() {
         return this.entries.compareAllWith(dealer);
     }
@@ -79,12 +74,5 @@ public final class Players {
 
     public Dealer getDealer() {
         return this.dealer;
-    }
-
-    public List<Player> getValues() {
-        List<Player> players = new ArrayList<>();
-        players.add(getDealer());
-        players.addAll(getEntries());
-        return players;
     }
 }

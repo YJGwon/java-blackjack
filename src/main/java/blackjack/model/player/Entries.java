@@ -6,7 +6,6 @@ import blackjack.model.bet.Result;
 import blackjack.model.trumpcard.TrumpCard;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -99,11 +98,5 @@ public final class Entries {
 
     List<Entry> getValues() {
         return this.values;
-    }
-
-    List<Name> getNames() {
-        return this.values.stream()
-                .map(Entry::getName)
-                .collect(Collectors.toList());
     }
 }

@@ -24,10 +24,6 @@ public abstract class Player {
         return this.hand.isScoreLessThan(criteria);
     }
 
-    protected int countAddedCards() {
-        return this.hand.countAddedCards();
-    }
-
     protected boolean isBust() {
         return this.hand.isBust();
     }

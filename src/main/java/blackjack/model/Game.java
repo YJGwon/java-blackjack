@@ -5,7 +5,6 @@ import blackjack.model.bet.Profits;
 import blackjack.model.player.Dealer;
 import blackjack.model.player.Entry;
 import blackjack.model.player.Name;
-import blackjack.model.player.Player;
 import blackjack.model.player.Players;
 import blackjack.model.trumpcard.TrumpCardPack;
 import java.util.List;
@@ -60,20 +59,12 @@ public final class Game {
         return this.players.calculateProfits();
     }
 
-    public int countCardsAddedToDealer() {
-        return this.players.countCardsAddedToDealer();
-    }
-
     public Dealer getDealer() {
         return this.players.getDealer();
     }
 
     public List<Entry> getEntries() {
         return this.players.getEntries();
-    }
-
-    public List<Player> getPlayers() {
-        return this.players.getValues();
     }
 
     public Entry getCurrentEntry() {
