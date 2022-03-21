@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public final class EntryDto extends PlayerDto {
-    private EntryDto(String name, HandDto deck, int score) {
-        super(name, deck, score);
+    private EntryDto(HandDto deck, int score) {
+        super(deck, score);
     }
 
     public static List<EntryDto> from(Game game) {
@@ -21,6 +21,6 @@ public final class EntryDto extends PlayerDto {
     }
 
     static EntryDto from(Entry entry) {
-        return new EntryDto(entry.getName(), HandDto.from(entry), entry.getScore());
+        return new EntryDto(HandDto.from(entry), entry.getScore());
     }
 }

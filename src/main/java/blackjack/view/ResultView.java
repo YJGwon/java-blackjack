@@ -1,12 +1,13 @@
 package blackjack.view;
 
 import blackjack.dto.DealerDto;
-import blackjack.dto.EntryDto;
 import blackjack.dto.HandDto;
 import blackjack.dto.PlayerDto;
 import blackjack.dto.PlayersDto;
 import blackjack.dto.ProfitsDto;
 import blackjack.dto.TrumpCardDto;
+import blackjack.model.player.Name;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -22,31 +23,17 @@ public class ResultView {
 
     private static final String DELIMITER_JOIN = ", ";
 
-    public void printFirstHands(PlayersDto players) {
-        printThatHandInitialized(players);
-        for (PlayerDto player : players.getPlayers()) {
-            printFirstHand(player);
+    public void printFirstHands(Name dealerName, List<Name> entryNames, PlayersDto players) {
+        printThatHandInitialized(dealerName, entryNames);
+        printOnlyFirstCard(dealerName, players.getDealer());
+        for (int i = 0; i < entryNames.size(); i++) {
+            printFullHand(entryNames.get(i), players.getEntries().get(i));
         }
     }
 
-    private void printThatHandInitialized(PlayersDto players) {
-        DealerDto dealer = players.getDealer();
-        System.out.printf(
-                FORMAT_MESSAGE_HAND_INITIALIZED,
-                dealer.getName(), joinStrings(players.getEntryNames()));
-    }
-
-    private void printFirstHand(PlayerDto player) {
-        if (player instanceof DealerDto) {
-            printOnlyFirstCard((DealerDto) player);
-            return;
-        }
-        printFullHand(player);
-    }
-
-    private void printOnlyFirstCard(DealerDto dealer) {
+    private void printOnlyFirstCard(Name name, DealerDto dealer) {
         System.out.printf(FORMAT_HAND_INITIALIZED,
-                dealer.getName(), concatFirstCardToString(dealer.getHand()));
+                name.getValue(), concatFirstCardToString(dealer.getHand()));
     }
 
     private String concatFirstCardToString(HandDto hand) {
@@ -54,61 +41,74 @@ public class ResultView {
         return firstCard.getDenomination() + firstCard.getSuit();
     }
 
-    public void printFullHand(PlayerDto player) {
+    public void printFullHand(Name name, PlayerDto player) {
         System.out.printf(FORMAT_HAND_INITIALIZED,
-                player.getName(), joinHand(player.getHand()));
+                name.getValue(), joinHand(player.getHand()));
     }
 
-    public void printBustMessage(EntryDto entry) {
-        System.out.printf(FORMAT_MESSAGE_BUST, entry.getName());
+    private void printThatHandInitialized(Name dealerName, List<Name> entryNames) {
+        System.out.printf(
+                FORMAT_MESSAGE_HAND_INITIALIZED,
+                dealerName.getValue(), joinNames(entryNames));
     }
 
-    public void printDealerAddedCount(DealerDto dealer) {
+    private String joinNames(List<Name> names) {
+        List<String> nameValues = names.stream()
+                .map(Name::getValue)
+                .collect(Collectors.toList());
+        return String.join(DELIMITER_JOIN, nameValues);
+    }
+
+    public void printBustMessage(Name name) {
+        System.out.printf(FORMAT_MESSAGE_BUST, name.getValue());
+    }
+
+    public void printDealerAddedCount(Name name, DealerDto dealer) {
         System.out.printf(FORMAT_MESSAGE_DEALER_HIT,
-                dealer.getName(), dealer.getAddedCount());
+                name.getValue(), dealer.getAddedCount());
     }
 
-    public void printProfits(PlayersDto players, ProfitsDto profits) {
-        printScores(players);
-        printProfits(profits);
+    public void printResults(Name dealerName, List<Name> entryNames,
+                             PlayersDto players, ProfitsDto profits) {
+        List<Name> allNames = new ArrayList<>();
+        allNames.add(dealerName);
+        allNames.addAll(entryNames);
+        printScores(allNames, players);
+        printProfits(dealerName, entryNames, profits);
     }
 
-    private void printScores(PlayersDto players) {
-        for (PlayerDto player : players.getPlayers()) {
-            printScore(player);
+    private void printScores(List<Name> names, PlayersDto players) {
+        for (int i = 0; i < names.size(); i++) {
+            printScore(names.get(i), players.getPlayers().get(i));
         }
     }
 
-    private void printScore(PlayerDto player) {
-        System.out.printf(FORMAT_SCORE, player.getName(),
+    private void printScore(Name name, PlayerDto player) {
+        System.out.printf(FORMAT_SCORE, name.getValue(),
                 joinHand(player.getHand()), player.getScore());
     }
 
-    private void printProfits(ProfitsDto profits) {
-        System.out.println(TITLE_PROFIT);
-        printProfit(profits.getDealer(), profits.getDealerProfit());
-        printEntryProfits(profits);
+    private String joinHand(HandDto hand) {
+        return joinStrings(hand.getCards().stream()
+                .map(card -> card.getDenomination() + card.getSuit())
+                .collect(Collectors.toList()));
     }
 
-    private void printEntryProfits(ProfitsDto profits) {
-        Map<EntryDto, Integer> entryProfits = profits.getEntryProfits();
-        for (EntryDto entry : entryProfits.keySet()) {
-            printProfit(entry, entryProfits.get(entry));
+    private void printProfits(Name dealerName, List<Name> entryNames, ProfitsDto profits) {
+        System.out.println(TITLE_PROFIT);
+        printProfit(dealerName, profits.getDealerProfit());
+        printEntryProfits(entryNames, profits);
+    }
+
+    private void printEntryProfits(List<Name> names, ProfitsDto profits) {
+        Map<Name, Integer> entryProfits = profits.getEntryProfits();
+        for (Name entryName : names) {
+            printProfit(entryName, entryProfits.get(entryName));
         }
     }
 
-    private void printProfit(PlayerDto player, int profit) {
-        System.out.printf(FORMAT_PROFIT, player.getName(), profit);
-    }
-
-    private String joinHand(HandDto hand) {
-        return joinCards(hand.getCards());
-    }
-
-    private String joinCards(List<TrumpCardDto> cards) {
-        return joinStrings(cards.stream()
-                .map(card -> card.getDenomination() + card.getSuit())
-                .collect(Collectors.toList()));
+    private void printProfit(Name name, int profit) {
+        System.out.printf(FORMAT_PROFIT, name.getValue(), profit);
     }
 
     private String joinStrings(List<String> strings) {

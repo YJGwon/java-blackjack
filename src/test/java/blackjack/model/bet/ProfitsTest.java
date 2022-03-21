@@ -15,8 +15,8 @@ public class ProfitsTest {
     @Test
     void getDealerProfit_10000() {
         Map<Entry, Profit> entryProfits = new HashMap<>();
-        entryProfits.put(new Entry("포키"), new Profit(new Amount(-20000)));
-        entryProfits.put(new Entry("리버"), new Profit(new Amount(10000)));
+        entryProfits.put(Entry.from("포키"), new Profit(new Amount(-20000)));
+        entryProfits.put(Entry.from("리버"), new Profit(new Amount(10000)));
         Dealer dealer = new Dealer();
 
         Profits profits = Profits.of(entryProfits, dealer);

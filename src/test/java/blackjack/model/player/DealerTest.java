@@ -19,7 +19,7 @@ public class DealerTest {
         dealer = new Dealer();
         dealer.addCard(new TrumpCard(TrumpDenomination.TEN, TrumpSuit.CLOVER));
 
-        entry = new Entry("포키");
+        entry = Entry.from("포키");
         entry.addCard(new TrumpCard(TrumpDenomination.TEN, TrumpSuit.DIAMOND));
     }
 

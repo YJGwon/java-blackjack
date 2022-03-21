@@ -1,6 +1,6 @@
 package blackjack.view;
 
-import blackjack.dto.EntryDto;
+import blackjack.model.player.Name;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -32,8 +32,8 @@ public class InputView {
         return Arrays.asList((rawNames.split(REGEX_NAME)));
     }
 
-    public int askBetAmount(EntryDto entry) {
-        System.out.printf(FORMAT_BETTING_MONEY, entry.getName());
+    public int askBetAmount(Name entryName) {
+        System.out.printf(FORMAT_BETTING_MONEY, entryName.getValue());
         return readInt();
     }
 
@@ -45,8 +45,8 @@ public class InputView {
         }
     }
 
-    public boolean askForHit(EntryDto entry) {
-        System.out.printf(FORMAT_HIT, entry.getName(), SIGN_TRUE, SIGN_FALSE);
+    public boolean askForHit(Name entryName) {
+        System.out.printf(FORMAT_HIT, entryName.getValue(), SIGN_TRUE, SIGN_FALSE);
         String input = scanner.nextLine();
         return isInputTrue(input.trim());
     }

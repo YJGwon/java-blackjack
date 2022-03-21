@@ -8,7 +8,7 @@ public final class Dealer extends Player {
     private static final int SCORE_HIT_CRITERIA = 17;
 
     public Dealer() {
-        super(NAME);
+        super(new Name(NAME));
     }
 
     public boolean canHit() {

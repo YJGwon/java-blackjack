@@ -3,6 +3,7 @@ package blackjack.model.player;
 import blackjack.model.bet.Bet;
 import blackjack.model.bet.Profits;
 import blackjack.model.trumpcard.TrumpCard;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -64,15 +65,34 @@ public final class Players {
         return this.entries.compareAllWith(dealer);
     }
 
+    public Entry getCurrentEntry() {
+        return this.entries.getCurrentEntry();
+    }
+
+    public Name getCurrentEntryName() {
+        return this.entries.getCurrentEntry().getName();
+    }
+
     public List<Entry> getEntries() {
         return this.entries.getValues();
+    }
+
+    public List<Name> getEntryNames() {
+        return this.entries.getNames();
+    }
+
+    public List<Name> getNames() {
+        List<Name> names = new ArrayList<>();
+        names.add(this.dealer.getName());
+        names.addAll(this.entries.getNames());
+        return names;
     }
 
     public Dealer getDealer() {
         return this.dealer;
     }
 
-    public Entry getCurrentEntry() {
-        return this.entries.getCurrentEntry();
+    public Name getDealerName() {
+        return this.dealer.getName();
     }
 }

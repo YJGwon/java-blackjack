@@ -3,7 +3,6 @@ package blackjack.dto;
 import blackjack.model.Game;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public final class PlayersDto {
     private final DealerDto dealer;
@@ -31,11 +30,5 @@ public final class PlayersDto {
 
     public List<EntryDto> getEntries() {
         return entries;
-    }
-
-    public List<String> getEntryNames() {
-        return entries.stream()
-                .map(EntryDto::getName)
-                .collect(Collectors.toList());
     }
 }

@@ -30,7 +30,7 @@ public class EntriesTest {
             entries.toNextEntry();
         }
 
-        assertThat(entries.getCurrentEntryName()).isEqualTo(names.get(testingIndex));
+        assertThat(entries.getCurrentEntryName().getValue()).isEqualTo(names.get(testingIndex));
     }
 
     @DisplayName("더 이상 Entry가 없을 때 예외가 발생한다.")

@@ -23,7 +23,7 @@ public final class Entries {
     static Entries from(List<String> names) {
         checkDuplicate(names);
         List<Entry> entries = names.stream()
-                .map(Entry::new)
+                .map(Entry::from)
                 .collect(Collectors.toList());
         return new Entries(entries);
     }
@@ -74,18 +74,6 @@ public final class Entries {
         return getCurrentEntry().isBust();
     }
 
-    Entry getCurrentEntry() {
-        return this.values.get(currentIndex);
-    }
-
-    String getCurrentEntryName() {
-        return getCurrentEntry().getName();
-    }
-
-    List<Entry> getValues() {
-        return this.values;
-    }
-
     Profits compareAllWith(Dealer dealer) {
         return Profits.of(this.values.stream()
                 .collect(Collectors.toMap(
@@ -96,5 +84,23 @@ public final class Entries {
 
     private Result compare(Dealer dealer, Entry entry) {
         return dealer.compareWith(entry);
+    }
+
+    Entry getCurrentEntry() {
+        return this.values.get(currentIndex);
+    }
+
+    Name getCurrentEntryName() {
+        return getCurrentEntry().getName();
+    }
+
+    List<Entry> getValues() {
+        return this.values;
+    }
+
+    List<Name> getNames() {
+        return this.values.stream()
+                .map(Entry::getName)
+                .collect(Collectors.toList());
     }
 }

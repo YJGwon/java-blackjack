@@ -20,20 +20,22 @@ public class Application {
         playEntries(inputView, resultView, game);
         inputView.closeInput();
         hitDealer(game, resultView);
-        resultView.printProfits(PlayersDto.from(game), ProfitsDto.from(game.calculateProfits()));
+        resultView.printResults(
+                game.getDealerName(), game.getEntryNames(),
+                PlayersDto.from(game), ProfitsDto.from(game.calculateProfits()));
     }
 
     private static void betMoney(Game game, InputView inputView) {
         do {
             game.toNextEntry();
-            game.betToCurrentEntry(inputView.askBetAmount(EntryDto.fromCurrentEntryOf(game)));
+            game.betToCurrentEntry(inputView.askBetAmount(game.getCurrentEntryName()));
         } while (game.hasNextEntry());
         game.toFirstEntry();
     }
 
     private static void giveFirstHands(ResultView resultView, Game game) {
         game.giveFirstHands();
-        resultView.printFirstHands(PlayersDto.from(game));
+        resultView.printFirstHands(game.getDealerName(), game.getEntryNames(), PlayersDto.from(game));
     }
 
     private static void playEntries(InputView inputView, ResultView resultView, Game game) {
@@ -45,23 +47,23 @@ public class Application {
 
     private static void playTurn(Game game, InputView inputView, ResultView resultView) {
         if (!game.canCurrentEntryHit()) {
-            resultView.printBustMessage(EntryDto.fromCurrentEntryOf(game));
+            resultView.printBustMessage(game.getCurrentEntryName());
             return;
         }
         hitCurrentEntry(game, inputView, resultView);
     }
 
     private static void hitCurrentEntry(Game game, InputView inputView, ResultView resultView) {
-        if (inputView.askForHit(EntryDto.fromCurrentEntryOf(game))) {
+        if (inputView.askForHit(game.getCurrentEntryName())) {
             game.hitCurrentEntry();
-            resultView.printFullHand(EntryDto.fromCurrentEntryOf(game));
+            resultView.printFullHand(game.getCurrentEntryName(), EntryDto.fromCurrentEntryOf(game));
             playTurn(game, inputView, resultView);
         }
     }
 
     private static void hitDealer(Game game, ResultView resultView) {
         if (game.hitDealer()) {
-            resultView.printDealerAddedCount(DealerDto.from(game));
+            resultView.printDealerAddedCount(game.getDealerName(), DealerDto.from(game));
         }
     }
 }

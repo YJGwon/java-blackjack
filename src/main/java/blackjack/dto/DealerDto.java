@@ -6,8 +6,8 @@ import blackjack.model.player.Dealer;
 public final class DealerDto extends PlayerDto {
     private final int addedCount;
 
-    private DealerDto(String name, HandDto hand, int addedCount, int score) {
-        super(name, hand, score);
+    private DealerDto(HandDto hand, int addedCount, int score) {
+        super(hand, score);
         this.addedCount = addedCount;
     }
 
@@ -15,13 +15,9 @@ public final class DealerDto extends PlayerDto {
         return from(game.getDealer(), game.countCardsAddedToDealer());
     }
 
-    static DealerDto fromNameOf(Dealer dealer) {
-        return from(dealer, 0);
-    }
-
     private static DealerDto from(Dealer dealer, int addedCount) {
         return new DealerDto(
-                dealer.getName(), HandDto.from(dealer), addedCount, dealer.getScore());
+                HandDto.from(dealer), addedCount, dealer.getScore());
     }
 
     public int getAddedCount() {

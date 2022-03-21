@@ -5,21 +5,12 @@ import blackjack.model.trumpcard.TrumpCard;
 import java.util.function.Supplier;
 
 public abstract class Player {
-    private static final String ERROR_NULL = "[ERROR] 입력된 이름이 없습니다.";
-
-    private final String name;
+    private final Name name;
     private final Hand hand;
 
-    protected Player(String name) {
-        checkNull(name);
-        this.name = name.trim();
+    protected Player(Name name) {
+        this.name = name;
         this.hand = new Hand();
-    }
-
-    private void checkNull(String name) {
-        if (name == null) {
-            throw new IllegalArgumentException(ERROR_NULL);
-        }
     }
 
     protected void initializeHand(Supplier<TrumpCard> cardSupplier) {
@@ -54,7 +45,7 @@ public abstract class Player {
         return hand.sumScore();
     }
 
-    public String getName() {
+    public Name getName() {
         return this.name;
     }
 
