@@ -2,10 +2,12 @@ package blackjack.model.player;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import blackjack.model.bet.Bet;
 import blackjack.model.bet.Result;
 import blackjack.model.trumpcard.TrumpCard;
 import blackjack.model.trumpcard.TrumpDenomination;
 import blackjack.model.trumpcard.TrumpSuit;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +21,7 @@ public class DealerTest {
         dealer = new Dealer();
         dealer.addCard(new TrumpCard(TrumpDenomination.TEN, TrumpSuit.CLOVER));
 
-        entry = Entry.from("포키");
+        entry = new Entry(new Name("포키"), Bet.from(List.of(10000)).get(0));
         entry.addCard(new TrumpCard(TrumpDenomination.TEN, TrumpSuit.DIAMOND));
     }
 

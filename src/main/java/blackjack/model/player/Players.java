@@ -15,12 +15,8 @@ public final class Players {
         this.dealer = dealer;
     }
 
-    public static Players from(List<String> names) {
-        return new Players(Entries.from(names), new Dealer());
-    }
-
-    public void betToCurrent(Bet bet) {
-        this.entries.betToCurrent(bet);
+    public static Players from(List<Name> names, List<Bet> bets) {
+        return new Players(Entries.from(names, bets), new Dealer());
     }
 
     public void initializeHands(Supplier<TrumpCard> cardSupplier) {
@@ -34,10 +30,6 @@ public final class Players {
 
     public void toNextEntry() {
         this.entries.toNextEntry();
-    }
-
-    public void resetEntriesCursor() {
-        this.entries.resetCursor();
     }
 
     public void addToCurrentEntry(TrumpCard card) {

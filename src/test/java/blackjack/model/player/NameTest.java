@@ -2,6 +2,7 @@ package blackjack.model.player;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -47,5 +48,15 @@ public class NameTest {
         assertThatThrownBy(() -> new Name(value))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이름에 기호는 포함될 수 없습니다.");
+    }
+
+    @DisplayName("중복된 이름이 있을 때 예외가 발생한다.")
+    @Test
+    void from_duplicate_names() {
+        List<String> names = List.of("포키 ", "리버", "포키");
+
+        assertThatThrownBy(() -> Name.from(names))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 중복된 이름이 있습니다.");
     }
 }

@@ -25,4 +25,10 @@ public class ProfitTest {
     void add_2000_3000() {
         assertThat(profit.add(new Profit(new Amount(2000))).getValue()).isEqualTo(3000);
     }
+
+    @DisplayName("1000원을 reverse하면 -1000원이다.")
+    @Test
+    void reverse_1000() {
+        assertThat(profit.reverse().getValue()).isEqualTo(-1000);
+    }
 }

@@ -1,5 +1,8 @@
 package blackjack.model.bet;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public final class Bet {
     private static final String ERROR_NEGATIVE = "[ERROR] 배팅 금액은 음수일 수 없습니다.";
     private static final String ERROR_UNIT = "[ERROR] 배팅 금액은 1000원 단위여야 합니다.";
@@ -11,7 +14,13 @@ public final class Bet {
         this.amount = amount;
     }
 
-    public static Bet from(int amount) {
+    public static List<Bet> from(List<Integer> rawAmounts) {
+        return rawAmounts.stream()
+                .map(Bet::from)
+                .collect(Collectors.toList());
+    }
+
+    private static Bet from(int amount) {
         validateAmount(amount);
         return new Bet(new Amount(amount));
     }

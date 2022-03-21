@@ -4,13 +4,13 @@ import blackjack.model.bet.Bet;
 import blackjack.model.bet.Profits;
 import blackjack.model.bet.Result;
 import blackjack.model.trumpcard.TrumpCard;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public final class Entries {
-    private static final String ERROR_DUPLICATE_NAME = "[ERROR] 중복된 이름이 있습니다.";
     private static final String ERROR_NO_ENTRY = "[ERROR] 더 이상 Entry가 없습니다.";
     private static final int INITIAL_INDEX = -1;
 
@@ -21,29 +21,12 @@ public final class Entries {
         this.values = List.copyOf(values);
     }
 
-    static Entries from(List<String> names) {
-        checkDuplicate(names);
-        List<Entry> entries = names.stream()
-                .map(Entry::from)
-                .collect(Collectors.toList());
-        return new Entries(entries);
-    }
-
-    private static void checkDuplicate(List<String> names) {
-        if (countDistinct(names) != names.size()) {
-            throw new IllegalArgumentException(ERROR_DUPLICATE_NAME);
+    static Entries from(List<Name> names, List<Bet> bets) {
+        List<Entry> entries = new ArrayList<>();
+        for (int i = 0; i < names.size(); i++) {
+            entries.add(new Entry(names.get(i), bets.get(i)));
         }
-    }
-
-    private static int countDistinct(List<String> names) {
-        return (int) names.stream()
-                .map(String::trim)
-                .distinct()
-                .count();
-    }
-
-    void betToCurrent(Bet bet) {
-        getCurrentEntry().bet(bet);
+        return new Entries(entries);
     }
 
     void initializeHands(Supplier<TrumpCard> cardSupplier) {
@@ -57,10 +40,6 @@ public final class Entries {
             throw new RuntimeException(ERROR_NO_ENTRY);
         }
         this.currentIndex++;
-    }
-
-    void resetCursor() {
-        this.currentIndex = INITIAL_INDEX;
     }
 
     boolean hasNoNext() {

@@ -13,9 +13,9 @@ public final class Game {
     private final Players players;
     private final TrumpCardPack trumpCardPack;
 
-    public Game(List<String> names) {
+    public Game(List<Name> names, List<Bet> bets) {
         this.trumpCardPack = new TrumpCardPack();
-        this.players = Players.from(names);
+        this.players = Players.from(names, bets);
     }
 
     public void toNextEntry() {
@@ -24,14 +24,6 @@ public final class Game {
 
     public boolean hasNextEntry() {
         return this.players.hasNextEntry();
-    }
-
-    public void betToCurrentEntry(int amount) {
-        this.players.betToCurrent(Bet.from(amount));
-    }
-
-    public void toFirstEntry() {
-        this.players.resetEntriesCursor();
     }
 
     public void giveFirstHands() {

@@ -1,9 +1,13 @@
 package blackjack;
 
 import blackjack.model.Game;
+import blackjack.model.bet.Bet;
 import blackjack.model.bet.Profits;
+import blackjack.model.player.Name;
 import blackjack.view.InputView;
 import blackjack.view.ResultView;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Application {
 
@@ -11,8 +15,9 @@ public class Application {
         final InputView inputView = new InputView();
         final ResultView resultView = new ResultView();
 
-        Game game = new Game(inputView.askEntryNames());
-        betMoney(game, inputView);
+        List<Name> names = Name.from(inputView.askEntryNames());
+        List<Bet> bets = Bet.from(betMoney(names, inputView));
+        Game game = new Game(names, bets);
         giveFirstHands(game, resultView);
         playEntries(game, inputView, resultView);
         inputView.closeInput();
@@ -20,12 +25,10 @@ public class Application {
         showResult(game, resultView);
     }
 
-    private static void betMoney(Game game, InputView inputView) {
-        do {
-            game.toNextEntry();
-            game.betToCurrentEntry(inputView.askBetAmount(game.getCurrentEntryName()));
-        } while (game.hasNextEntry());
-        game.toFirstEntry();
+    private static List<Integer> betMoney(List<Name> names, InputView inputView) {
+        return names.stream()
+                .map(inputView::askBetAmount)
+                .collect(Collectors.toList());
     }
 
     private static void giveFirstHands(Game game, ResultView resultView) {
