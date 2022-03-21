@@ -1,5 +1,6 @@
-package blackjack.model.trumpcard;
+package blackjack.model.player;
 
+import blackjack.model.trumpcard.TrumpCard;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -18,7 +19,7 @@ public final class Hand {
         this.cards = new ArrayList<>();
     }
 
-    public void initialize(Supplier<TrumpCard> cardSupplier) {
+    void initialize(Supplier<TrumpCard> cardSupplier) {
         checkInitialized();
         for (int i = 0; i < FIRST_DECK_SIZE; i++) {
             add(cardSupplier.get());
@@ -31,27 +32,27 @@ public final class Hand {
         }
     }
 
-    public void add(TrumpCard card) {
+    void add(TrumpCard card) {
         this.cards.add(card);
     }
 
-    public boolean isBust() {
+    boolean isBust() {
         return sumScore() > SCORE_LIMIT;
     }
 
-    public boolean isBlackjack() {
+    boolean isBlackjack() {
         return !hasCardAdded() && sumScore() == SCORE_LIMIT;
     }
 
-    private boolean hasCardAdded() {
+    boolean hasCardAdded() {
         return countAddedCards() > 0;
     }
 
-    public int countAddedCards() {
+    int countAddedCards() {
         return getSize() - FIRST_DECK_SIZE;
     }
 
-    public int sumScore() {
+    int sumScore() {
         int score = 0;
         score = sumCardDenominationTo(score);
         if (hasAce()) {
@@ -93,11 +94,11 @@ public final class Hand {
         return 0;
     }
 
-    public boolean isScoreLessThan(Hand hand) {
+    boolean isScoreLessThan(Hand hand) {
         return this.isScoreLessThan(hand.sumScore());
     }
 
-    public boolean isScoreLessThan(int otherScore) {
+    boolean isScoreLessThan(int otherScore) {
         return sumScore() < otherScore;
     }
 
@@ -105,7 +106,7 @@ public final class Hand {
         return new ArrayList<>(cards);
     }
 
-    private int getSize() {
+    int getSize() {
         return this.cards.size();
     }
 }

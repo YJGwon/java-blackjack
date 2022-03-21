@@ -11,11 +11,11 @@ public final class TrumpCard {
         this.suit = suit;
     }
 
-    int sumDenominationTo(int value) {
+    public int sumDenominationTo(int value) {
         return denomination.sumTo(value);
     }
 
-    boolean isAce() {
+    public boolean isAce() {
         return this.denomination == TrumpDenomination.ACE;
     }
 

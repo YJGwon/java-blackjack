@@ -79,10 +79,6 @@ public final class Game {
         return this.players.getCurrentEntryName();
     }
 
-    public List<Name> getPlayerNames() {
-        return this.players.getNames();
-    }
-
     public Dealer getDealer() {
         return this.players.getDealer();
     }

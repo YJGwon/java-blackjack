@@ -1,6 +1,6 @@
 package blackjack.dto;
 
-import blackjack.model.trumpcard.Hand;
+import blackjack.model.player.Hand;
 import blackjack.model.trumpcard.TrumpCard;
 import blackjack.model.trumpcard.TrumpDenomination;
 import blackjack.model.trumpcard.TrumpSuit;

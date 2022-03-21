@@ -1,8 +1,12 @@
-package blackjack.model.trumpcard;
+package blackjack.model.player;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import blackjack.model.trumpcard.TrumpCard;
+import blackjack.model.trumpcard.TrumpCardPack;
+import blackjack.model.trumpcard.TrumpDenomination;
+import blackjack.model.trumpcard.TrumpSuit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
