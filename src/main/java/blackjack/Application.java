@@ -13,11 +13,11 @@ public class Application {
 
         Game game = new Game(inputView.askEntryNames());
         betMoney(game, inputView);
-        giveFirstHands(resultView, game);
-        playEntries(inputView, resultView, game);
+        giveFirstHands(game, resultView);
+        playEntries(game, inputView, resultView);
         inputView.closeInput();
         hitDealer(game, resultView);
-        showResult(resultView, game);
+        showResult(game, resultView);
     }
 
     private static void betMoney(Game game, InputView inputView) {
@@ -28,12 +28,12 @@ public class Application {
         game.toFirstEntry();
     }
 
-    private static void giveFirstHands(ResultView resultView, Game game) {
+    private static void giveFirstHands(Game game, ResultView resultView) {
         game.giveFirstHands();
         resultView.printFirstHands(game.getDealer(), game.getEntries());
     }
 
-    private static void playEntries(InputView inputView, ResultView resultView, Game game) {
+    private static void playEntries(Game game, InputView inputView, ResultView resultView) {
         do {
             game.toNextEntry();
             playTurn(game, inputView, resultView);
@@ -62,7 +62,7 @@ public class Application {
         }
     }
 
-    private static void showResult(ResultView resultView, Game game) {
+    private static void showResult(Game game, ResultView resultView) {
         Profits profits = game.calculateProfits();
         resultView.printResults(profits.getValues());
     }
