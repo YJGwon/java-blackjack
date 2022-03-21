@@ -1,10 +1,7 @@
 package blackjack;
 
-import blackjack.dto.DealerDto;
-import blackjack.dto.EntryDto;
-import blackjack.dto.PlayersDto;
-import blackjack.dto.ProfitsDto;
 import blackjack.model.Game;
+import blackjack.model.bet.Profits;
 import blackjack.view.InputView;
 import blackjack.view.ResultView;
 
@@ -20,9 +17,7 @@ public class Application {
         playEntries(inputView, resultView, game);
         inputView.closeInput();
         hitDealer(game, resultView);
-        resultView.printResults(
-                game.getDealerName(), game.getEntryNames(),
-                PlayersDto.from(game), ProfitsDto.from(game.calculateProfits()));
+        showResult(resultView, game);
     }
 
     private static void betMoney(Game game, InputView inputView) {
@@ -35,7 +30,7 @@ public class Application {
 
     private static void giveFirstHands(ResultView resultView, Game game) {
         game.giveFirstHands();
-        resultView.printFirstHands(game.getDealerName(), game.getEntryNames(), PlayersDto.from(game));
+        resultView.printFirstHands(game.getDealer(), game.getEntries());
     }
 
     private static void playEntries(InputView inputView, ResultView resultView, Game game) {
@@ -56,14 +51,19 @@ public class Application {
     private static void hitCurrentEntry(Game game, InputView inputView, ResultView resultView) {
         if (inputView.askForHit(game.getCurrentEntryName())) {
             game.hitCurrentEntry();
-            resultView.printFullHand(game.getCurrentEntryName(), EntryDto.fromCurrentEntryOf(game));
+            resultView.printFullHand(game.getCurrentEntry());
             playTurn(game, inputView, resultView);
         }
     }
 
     private static void hitDealer(Game game, ResultView resultView) {
         if (game.hitDealer()) {
-            resultView.printDealerAddedCount(game.getDealerName(), DealerDto.from(game));
+            resultView.printDealerAddedCount(game.getDealer());
         }
+    }
+
+    private static void showResult(ResultView resultView, Game game) {
+        Profits profits = game.calculateProfits();
+        resultView.printResults(profits.getValues());
     }
 }

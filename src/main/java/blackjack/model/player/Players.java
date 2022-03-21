@@ -77,22 +77,14 @@ public final class Players {
         return this.entries.getValues();
     }
 
-    public List<Name> getEntryNames() {
-        return this.entries.getNames();
-    }
-
-    public List<Name> getNames() {
-        List<Name> names = new ArrayList<>();
-        names.add(this.dealer.getName());
-        names.addAll(this.entries.getNames());
-        return names;
-    }
-
     public Dealer getDealer() {
         return this.dealer;
     }
 
-    public Name getDealerName() {
-        return this.dealer.getName();
+    public List<Player> getValues() {
+        List<Player> players = new ArrayList<>();
+        players.add(getDealer());
+        players.addAll(getEntries());
+        return players;
     }
 }

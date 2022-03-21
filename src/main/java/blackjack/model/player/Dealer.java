@@ -11,11 +11,11 @@ public final class Dealer extends Player {
         super(new Name(NAME));
     }
 
-    public boolean canHit() {
+    boolean canHit() {
         return this.canHit(SCORE_HIT_CRITERIA);
     }
 
-    public Result compareWith(Entry entry) {
+    Result compareWith(Entry entry) {
         Result result = compareByBlackjackWith(entry);
         if (result != null) {
             return result;
@@ -57,7 +57,7 @@ public final class Dealer extends Player {
         return Result.TIE;
     }
 
-    public void hit(TrumpCard card) {
+    void hit(TrumpCard card) {
         if (canHit()) {
             this.addCard(card);
         }

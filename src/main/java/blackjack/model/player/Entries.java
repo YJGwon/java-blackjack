@@ -4,7 +4,9 @@ import blackjack.model.bet.Bet;
 import blackjack.model.bet.Profits;
 import blackjack.model.bet.Result;
 import blackjack.model.trumpcard.TrumpCard;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -79,7 +81,8 @@ public final class Entries {
                 .collect(Collectors.toMap(
                         entry -> entry,
                         entry -> entry.winProfit(compare(dealer, entry)),
-                        (a, b) -> b)), dealer);
+                        (a, b) -> b,
+                        LinkedHashMap::new)), dealer);
     }
 
     private Result compare(Dealer dealer, Entry entry) {

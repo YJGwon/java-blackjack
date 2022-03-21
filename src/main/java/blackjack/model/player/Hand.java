@@ -48,7 +48,7 @@ public final class Hand {
         return countAddedCards() > 0;
     }
 
-    int countAddedCards() {
+    public int countAddedCards() {
         return getSize() - FIRST_DECK_SIZE;
     }
 
@@ -103,7 +103,7 @@ public final class Hand {
     }
 
     public List<TrumpCard> getCards() {
-        return new ArrayList<>(cards);
+        return List.copyOf(cards);
     }
 
     int getSize() {

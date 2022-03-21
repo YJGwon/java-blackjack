@@ -3,7 +3,7 @@ package blackjack.model.bet;
 import blackjack.model.player.Dealer;
 import blackjack.model.player.Entry;
 import blackjack.model.player.Player;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public final class Profits {
@@ -14,7 +14,7 @@ public final class Profits {
     }
 
     public static Profits of(Map<Entry, Profit> entryProfits, Dealer dealer) {
-        Map<Player, Profit> map = new HashMap<>();
+        Map<Player, Profit> map = new LinkedHashMap<>();
         map.put(dealer, getDealerProfit(entryProfits));
         for (Entry entry : entryProfits.keySet()) {
             map.put(entry, entryProfits.get(entry));
